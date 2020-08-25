@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Grid, TableRowInterface } from "./Grid";
-import { Modal, ModalBody, ModalFooter, Button } from "reactstrap";
+import { Modal, ModalBody, ModalFooter, Button, Form } from "reactstrap";
 import { Tab, TabPanel, Tabs, TabList } from "react-tabs";
 
 // TODO Use Cookie storage to store table
@@ -24,20 +24,34 @@ export const App: React.FC = () => {
 
   const [showModal, setModal] = useState(false);
   const toggleModal = () => setModal(!showModal);
+  const [name, setName] = useState("name");
+  const [phone, setPhone] = useState("phone");
+  const [email, setEmail] = useState("email");
+
+  const submitForm = (e: any) => {
+    e.preventDefault();
+    console.log("here", name, email, phone);
+    // TODO Add / Edit row
+  };
+
+  const openModalClear = () => {
+    setName("");
+    setPhone("");
+    setEmail("");
+    toggleModal();
+  };
 
   return (
     <div>
       {/* TODO Pass handler to open modal cleared */}
       <div id="header">
-        <button onClick={toggleModal}>Add Record</button>
+        <button onClick={openModalClear}>Add Record</button>
       </div>
-      {/* TODO Pass here records */}
       {/* TODO Pass handler to open modal with specific data */}
       <Grid rowGetter={rowGetter} length={rows.length} />
       <Modal isOpen={showModal} toggle={toggleModal} className="modal-lg">
-        <ModalBody>
-          {/* TODO Add form */}
-          <form>
+        <Form onSubmit={submitForm}>
+          <ModalBody>
             <Tabs>
               <div
                 id="title-section"
@@ -51,22 +65,33 @@ export const App: React.FC = () => {
               </div>
               <div id="form-container">
                 <TabPanel>
-                  <input name="name" value="name" />
+                  <input
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
                 </TabPanel>
                 <TabPanel>
-                  <input name="email" value="email" />
+                  <input
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </TabPanel>
                 <TabPanel>
-                  <input name="phone" value="phone" />
+                  <input
+                    name="phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
                 </TabPanel>
               </div>
             </Tabs>
-          </form>
-        </ModalBody>
-        <ModalFooter>
-          {/* TODO Add handler */}
-          <Button>Add Record</Button>
-        </ModalFooter>
+          </ModalBody>
+          <ModalFooter>
+            <Button>Add Record</Button>
+          </ModalFooter>
+        </Form>
       </Modal>
     </div>
   );
