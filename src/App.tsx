@@ -80,6 +80,19 @@ export const App: React.FC = () => {
     toggleModal();
   };
 
+  const editHandler = ({ _id }: TableRowInterface) => {
+    setId(_id);
+    const row = rows.find((f) => f._id === _id);
+    // TODO Check if value updates after is has been changed
+    console.log("to update", row);
+    if (row) {
+      setEmail(row.email);
+      setName(row.name);
+      setPhone(row.phone);
+    }
+    toggleModal();
+  };
+
   return (
     <div>
       {/* TODO Pass handler to open modal cleared */}
@@ -87,7 +100,11 @@ export const App: React.FC = () => {
         <button onClick={openModalClear}>Add Record</button>
       </div>
       {/* TODO Pass handler to open modal with specific data */}
-      <Grid rowGetter={rowGetter} length={rows.length} />
+      <Grid
+        rowGetter={rowGetter}
+        length={rows.length}
+        editHandler={editHandler}
+      />
       <Modal isOpen={showModal} toggle={toggleModal} className="modal-lg">
         <Form onSubmit={submitForm}>
           <ModalBody>
