@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, TableRowInterface } from "./Grid";
+import { Modal, ModalBody } from "reactstrap";
 
 // TODO Use Cookie storage to store table
 export const App: React.FC = () => {
@@ -16,16 +17,23 @@ export const App: React.FC = () => {
     };
   };
 
+  const [showModal, setModal] = useState(false);
+  const toggleModal = () => setModal(!showModal);
+
   return (
     <div>
       {/* TODO Pass handler to open modal cleared */}
       <div id="header">
-        <button>Add Record</button>
+        <button onClick={toggleModal}>Add Record</button>
       </div>
       {/* TODO Pass here records */}
       {/* TODO Pass handler to open modal with specific data */}
       <Grid rowGetter={rowGetter} length={2} />
-      <div id="modal" />
+      <Modal isOpen={showModal} toggle={toggleModal} className="modal-lg">
+        <ModalBody>
+          <div>Modal</div>
+        </ModalBody>
+      </Modal>
     </div>
   );
 };
