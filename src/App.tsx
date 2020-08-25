@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Grid, TableRowInterface } from "./Grid";
-import { Modal, ModalBody } from "reactstrap";
+import { Modal, ModalBody, ModalFooter, Button } from "reactstrap";
+import { Tab, TabPanel, Tabs, TabList } from "react-tabs";
 
 // TODO Use Cookie storage to store table
 export const App: React.FC = () => {
@@ -35,8 +36,37 @@ export const App: React.FC = () => {
       <Grid rowGetter={rowGetter} length={rows.length} />
       <Modal isOpen={showModal} toggle={toggleModal} className="modal-lg">
         <ModalBody>
-          <div>Modal</div>
+          {/* TODO Add form */}
+          <form>
+            <Tabs>
+              <div
+                id="title-section"
+                className="sub-tabs d-flex justify-content-center"
+              >
+                <TabList>
+                  <Tab>Name</Tab>
+                  <Tab>Email</Tab>
+                  <Tab>Phone</Tab>
+                </TabList>
+              </div>
+              <div id="form-container">
+                <TabPanel>
+                  <input name="name" value="name" />
+                </TabPanel>
+                <TabPanel>
+                  <input name="email" value="email" />
+                </TabPanel>
+                <TabPanel>
+                  <input name="phone" value="phone" />
+                </TabPanel>
+              </div>
+            </Tabs>
+          </form>
         </ModalBody>
+        <ModalFooter>
+          {/* TODO Add handler */}
+          <Button>Add Record</Button>
+        </ModalFooter>
       </Modal>
     </div>
   );
