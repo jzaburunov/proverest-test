@@ -28,6 +28,7 @@ export const App: React.FC = () => {
   const [name, setName] = useState("name");
   const [phone, setPhone] = useState("phone");
   const [email, setEmail] = useState("email");
+  const [id, setId] = useState("id");
 
   const addRow = (name: string, email: string, phone: string) => {
     rows.push({
@@ -38,8 +39,24 @@ export const App: React.FC = () => {
     });
   };
 
+  const updateRow = (
+    name: string,
+    email: string,
+    phone: string,
+    id: string
+  ) => {
+    const row = rows.find((f) => f._id === id);
+    // TODO Check if value updates after is has been changed
+    if (row) {
+      row.email = email;
+      row.name = name;
+      row.phone = phone;
+    }
+  };
+
   const cleanTheForm = () => {
     setName("");
+    setId("");
     setPhone("");
     setEmail("");
   };
@@ -48,7 +65,12 @@ export const App: React.FC = () => {
     e.preventDefault();
     console.log("here", name, email, phone);
     // TODO Add / Edit row
-    addRow(name, email, phone);
+    if (!id) {
+      addRow(name, email, phone);
+    } else {
+      updateRow(name, email, phone, id);
+    }
+
     cleanTheForm();
     toggleModal();
   };
@@ -82,6 +104,12 @@ export const App: React.FC = () => {
               </div>
               <div id="form-container">
                 <TabPanel>
+                  <input
+                    name="id"
+                    hidden
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
+                  />
                   <input
                     name="name"
                     value={name}
