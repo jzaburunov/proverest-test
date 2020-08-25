@@ -8,13 +8,17 @@ export const App: React.FC = () => {
   // 2) Use react-virtualized for a table
   // 3) Use cookies for buttons
   // 4) Use hooks
-  const rowGetter = ({ index }: { index: number }): TableRowInterface => {
-    return {
+
+  const [rows, setRows] = useState([
+    {
       _id: "foo",
       name: "name",
       phone: "999",
       email: "vaisya@gamil.com",
-    };
+    },
+  ]);
+  const rowGetter = ({ index }: { index: number }): TableRowInterface => {
+    return rows[index];
   };
 
   const [showModal, setModal] = useState(false);
@@ -28,7 +32,7 @@ export const App: React.FC = () => {
       </div>
       {/* TODO Pass here records */}
       {/* TODO Pass handler to open modal with specific data */}
-      <Grid rowGetter={rowGetter} length={2} />
+      <Grid rowGetter={rowGetter} length={rows.length} />
       <Modal isOpen={showModal} toggle={toggleModal} className="modal-lg">
         <ModalBody>
           <div>Modal</div>
