@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Grid, TableRowInterface } from "./Grid";
 import { Modal, ModalBody, ModalFooter, Button, Form } from "reactstrap";
 import { Tab, TabPanel, Tabs, TabList } from "react-tabs";
+import UUID from "node-uuid";
 
 // TODO Use Cookie storage to store table
 export const App: React.FC = () => {
@@ -28,16 +29,32 @@ export const App: React.FC = () => {
   const [phone, setPhone] = useState("phone");
   const [email, setEmail] = useState("email");
 
+  const addRow = (name: string, email: string, phone: string) => {
+    rows.push({
+      _id: UUID.v4(),
+      name,
+      email,
+      phone,
+    });
+  };
+
+  const cleanTheForm = () => {
+    setName("");
+    setPhone("");
+    setEmail("");
+  };
+
   const submitForm = (e: any) => {
     e.preventDefault();
     console.log("here", name, email, phone);
     // TODO Add / Edit row
+    addRow(name, email, phone);
+    cleanTheForm();
+    toggleModal();
   };
 
   const openModalClear = () => {
-    setName("");
-    setPhone("");
-    setEmail("");
+    cleanTheForm();
     toggleModal();
   };
 
