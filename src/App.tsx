@@ -5,13 +5,7 @@ import UUID from "node-uuid";
 import { Grid, TableRowInterface } from "./Grid";
 import { useCookieRows } from "./useCookie";
 
-// TODO Use Cookie storage to store table
 export const App: React.FC = () => {
-  // 1) Use react-modal
-  // 2) Use react-virtualized for a table
-  // 3) Use cookies for buttons
-  // 4) Use hooks
-
   const [rows, setRows] = useCookieRows([
     {
       _id: "foo",
@@ -99,11 +93,9 @@ export const App: React.FC = () => {
 
   return (
     <div>
-      {/* TODO Pass handler to open modal cleared */}
       <div id="header">
         <button onClick={openModalClear}>Add Record</button>
       </div>
-      {/* TODO Pass handler to open modal with specific data */}
       <Grid
         rowGetter={rowGetter}
         length={rows.length}
