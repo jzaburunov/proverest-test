@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Grid, TableRowInterface } from "./Grid";
 import { Modal, ModalBody, ModalFooter, Button, Form } from "reactstrap";
 import { Tab, TabPanel, Tabs, TabList } from "react-tabs";
 import UUID from "node-uuid";
+import { Grid, TableRowInterface } from "./Grid";
+import { useCookieRows } from "./useCookie";
 
 // TODO Use Cookie storage to store table
 export const App: React.FC = () => {
@@ -11,14 +12,14 @@ export const App: React.FC = () => {
   // 3) Use cookies for buttons
   // 4) Use hooks
 
-  const [rows, setRows] = useState([
+  const [rows, setRows] = useCookieRows([
     {
       _id: "foo",
       name: "name",
       phone: "999",
       email: "vaisya@gamil.com",
     },
-  ]);
+  ]) as [TableRowInterface[], Function];
   const rowGetter = ({ index }: { index: number }): TableRowInterface => {
     return rows[index];
   };
@@ -37,6 +38,7 @@ export const App: React.FC = () => {
       email,
       phone,
     });
+    setRows(rows.slice());
   };
 
   const updateRow = (
@@ -46,12 +48,12 @@ export const App: React.FC = () => {
     id: string
   ) => {
     const row = rows.find((f) => f._id === id);
-    // TODO Check if value updates after is has been changed
     if (row) {
       row.email = email;
       row.name = name;
       row.phone = phone;
     }
+    setRows(rows.slice());
   };
 
   const cleanTheForm = () => {
@@ -83,7 +85,6 @@ export const App: React.FC = () => {
   const editHandler = ({ _id }: TableRowInterface) => {
     setId(_id);
     const row = rows.find((f) => f._id === _id);
-    // TODO Check if value updates after is has been changed
     console.log("to update", row);
     if (row) {
       setEmail(row.email);
