@@ -65,8 +65,6 @@ export const App: React.FC = () => {
 
   const submitForm = (e: any) => {
     e.preventDefault();
-    console.log("here", name, email, phone);
-    // TODO Add / Edit row
     if (!id) {
       addRow(name, email, phone);
     } else {
@@ -85,13 +83,18 @@ export const App: React.FC = () => {
   const editHandler = ({ _id }: TableRowInterface) => {
     setId(_id);
     const row = rows.find((f) => f._id === _id);
-    console.log("to update", row);
     if (row) {
       setEmail(row.email);
       setName(row.name);
       setPhone(row.phone);
     }
     toggleModal();
+  };
+
+  const removeHandler = ({ _id }: TableRowInterface) => {
+    const rowFiltered = rows.filter((f) => f._id !== _id);
+    setRows(rowFiltered);
+    cleanTheForm();
   };
 
   return (
@@ -105,6 +108,7 @@ export const App: React.FC = () => {
         rowGetter={rowGetter}
         length={rows.length}
         editHandler={editHandler}
+        removeHandler={removeHandler}
       />
       <Modal isOpen={showModal} toggle={toggleModal} className="modal-lg">
         <Form onSubmit={submitForm}>

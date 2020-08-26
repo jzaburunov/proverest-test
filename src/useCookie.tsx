@@ -20,7 +20,6 @@ export const useCookie = (key: string, defaultValue: any) => {
   const getCookie = () => getItem(key) || defaultValue;
   const [cookie, setCookie] = useState(getCookie());
   const updateCookie = (value: string, numberOfDays: number) => {
-    console.log("inside update Cookied", value);
     setCookie(value);
     setItem(key, value, numberOfDays);
   };

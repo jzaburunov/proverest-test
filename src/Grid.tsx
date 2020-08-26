@@ -15,11 +15,12 @@ export interface TableRowInterface {
 interface GridInterface extends React.HTMLAttributes<HTMLDivElement> {
   rowGetter({ index }: { index: number }): TableRowInterface;
   editHandler(data: TableRowInterface): void;
+  removeHandler(data: TableRowInterface): void;
   length: number;
 }
 
 export const Grid: React.FC<GridInterface> = (props) => {
-  const { rowGetter, length, editHandler } = props;
+  const { rowGetter, length, editHandler, removeHandler } = props;
 
   return (
     <AutoSizer disableHeight>
@@ -70,7 +71,7 @@ export const Grid: React.FC<GridInterface> = (props) => {
             cellRenderer={({ rowData }) => (
               <>
                 <button onClick={() => editHandler(rowData)}>Edit</button>
-                <button>Remove</button>
+                <button onClick={() => removeHandler(rowData)}>Remove</button>
               </>
             )}
             width={300}
